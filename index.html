@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js" ></script>
+
+</head>
+<body>
+    <script>
+
+        let today = moment().format('DD-MM-YYYY');
+
+
+        function getPrayerTime(city, country){
+            
+            fetch('https://api.aladhan.com/v1/calendarByCity?city=Baku&country=Azerbaijan&month=12&year=2022')
+            .then(res => res.json())
+            .then(data => {
+            
+                let todayprayertime = data.data.forEach(element => {
+                    if(element.date.gregorian.date == today){
+                        console.log(element.timings);
+                    }
+                    
+                })
+            })
+
+            fetch('https://api.aladhan.com/v1/calendarByCity?city=Baku&country=Azerbaijan&month=12&year=2022')
+            .then(res => res.json())
+            .then(data => {
+                data.data.forEach(elem => {
+          
+                    if(elem.date.gregorian.date == today){
+                        Object.values(elem.timings).forEach(item => {
+                            
+        var alertTime = moment().add(15, 'minutes').format('HH:mm')
+        var duration = moment.duration(alertTime.diff(today));
+        var minute = duration.asMinutes();
+                            if(item == alertTime){
+                                console.log('Namaza 15deq qalib');
+                            }
+                        })
+                    }
+                }) 
+            })
+
+        }
+
+        getPrayerTime('Baku', 'Azerbaijan')
+        
+
+        function GetTime(country, city, month, year){
+
+
+
+fetch('https://api.aladhan.com/v1/calendarByCity?city=Baku&country=Azerbaijan&month=12&year=2022')
+.then(res => res.json())
+.then(data => {
+    console.log(data.data);
+})
+}
+
+
+GetTime('Azerbaijan', 'Baku', 12, 2022)
+
+    </script>
+</body>
+</html>
